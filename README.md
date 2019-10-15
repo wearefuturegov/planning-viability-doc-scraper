@@ -2,6 +2,5 @@
 
 Project: Planning Viability
 
-## Running Instructions
-
-...
+## Deploy Instructions
+`virtualenv .env && source .env/bin/activate && pip install -r requirements.txt`

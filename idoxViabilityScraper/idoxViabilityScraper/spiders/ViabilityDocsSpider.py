@@ -18,8 +18,8 @@ class ViabilityDocsSpider(scrapy.Spider):
                     urls_all.append(url_header + row[0])
 
         urls = urls_all
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
+        for i, url in enumerate(urls):
+            yield scrapy.Request(url=url, meta={'cookiejar': i}, callback=self.parse)
 
     def parse(self, response):
         page = response.url.split("=")[-1]
@@ -32,6 +32,18 @@ class ViabilityDocsSpider(scrapy.Spider):
                 url = "https://planning.southwark.gov.uk"+item
                 print("URL: "+url)
                 #urllib.request.urlretrieve(url, './')
-                wget.download(url, '/Users/adamrae/Code/southwark-viability-scraper/idoxViabilityScraper/pdfs/')
+                #wget.download(url, '/Users/adamrae/Code/southwark-viability-scraper/idoxViabilityScraper/pdfs/')
+                yield scrapy.Request(url=url, meta={'cookiejar': response.meta['cookiejar']}, callback=self.retrieveViabilityDoc)
             #f.write(response.body)
         self.log('Saved file %s' % filename)
+        
+    def retrieveViabilityDoc(self, response):
+        page = response.url.split("/")[-1]
+        filename = '/Users/adamrae/Code/southwark-viability-scraper/idoxViabilityScraper/pdfs/docListingNew-%s' % page
+        print("INFO: Filename = %s" % filename)
+        #filename = '/Users/adamrae/Code/southwark-viability-scraper/idoxViabilityScraper/pdfs/docListingNew-%s.pdf'
+        pdf = response.body
+        with open(filename, 'wb') as f:
+            f.write(pdf)
+        #	print(pdf)
+        self.log('LOG: Saved viability doc')

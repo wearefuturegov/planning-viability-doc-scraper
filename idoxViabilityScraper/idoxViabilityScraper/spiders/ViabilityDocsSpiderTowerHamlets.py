@@ -41,8 +41,10 @@ class ViabilityDocsSpiderTowerHamlets(scrapy.Spider):
 		page = response.url.split("=")[-1]
 		filename = '/THdocListingNew-%s.csv' % page
 		filename = self.outputCSVs + filename
-		items = response.xpath("//*[@id='Documents']/tr[td//text()[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'viability')]]/td[7]/a/@href").getall() # using XPath 1.0 hack for matching case insensitive
+		#print("FILENAME: ", filename)
+		items = response.xpath("//*[@id='Documents']/tr[td//text()[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'viability')]]/td[6]/a/@href").getall() # using XPath 1.0 hack for matching case insensitive
 		with open(filename, 'w') as f:
+			#f.write(response.body)
 			for item in items:
 				f.write("%s,%s,https://development.towerhamlets.gov.uk%s\n" % (page, response.url, item))
 				url = "https://development.towerhamlets.gov.uk"+item

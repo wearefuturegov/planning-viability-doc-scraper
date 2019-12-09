@@ -2,6 +2,10 @@
 
 Purpose: Retrieve documents containing planning viability data associated with developments within a local authority. Currently only works for Southwark and Tower Hamlets.
 
+![](https://github.com/wearefuturegov/planning-viability-doc-scraper/blob/master/documentation/process.png)
+
+![](https://github.com/wearefuturegov/planning-viability-doc-scraper/blob/master/documentation/extension.png)
+
 Note: Play nicely with other people's servers.
 
 Contact: https://github.com/raemond
